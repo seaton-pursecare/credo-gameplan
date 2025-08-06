@@ -1,6 +1,32 @@
-# AWS Infrastructure Modernization - Architecture Diagram
+# AWS Infrastructure Modernization - Architecture Documentation
 
-## Current vs. Planned Infrastructure
+## Overview
+
+This document outlines the planned AWS infrastructure modernization project, including the current state, target architecture, and migration path. The project aims to modernize the existing AWS infrastructure by implementing containerization, improved security, and enhanced observability.
+
+## Table of Contents
+
+1. [Current State](#current-state)
+2. [Target Architecture](#target-architecture)
+3. [Security Zones](#security-zones)
+4. [Migration Path](#migration-path)
+5. [Component Details](#component-details)
+6. [Implementation Plan](#implementation-plan)
+
+## Current State
+
+The current infrastructure consists of:
+- Elastic Beanstalk applications
+- API Gateway for traffic routing
+- EC2 instances for various services
+- Legacy IAM structure
+- Single VPC with mixed environments
+- Limited security monitoring
+- No containerization
+
+## Target Architecture
+
+### Main Infrastructure Diagram
 
 ```mermaid
 graph TB
@@ -191,88 +217,25 @@ graph TB
     class EmployeeVPN,BastionHost employee
 ```
 
-## Key Architecture Components
+### Key Architecture Components
 
-### Network Architecture
+#### Network Architecture
 - **Dev VPC**: 10.0.0.0/16 with isolated subnets
 - **Prod VPC**: 10.1.0.0/16 with isolated subnets
 - **VPN Gateway**: Internal employee access only
 - **AWS WAF**: Protection for external load balancers
 - **NAT Gateways**: Internet access for private subnets
 
-### Traffic Flow
+#### Traffic Flow
 - **External Users**: Internet → WAF → Load Balancer → EKS
 - **Internal Employees**: VPN → VPC → Direct access to resources
 - **Bastion Host**: Optional secure access for administrative tasks
 
-### EKS Clusters
+#### EKS Clusters
 - **Dev EKS**: Development environment with Istio service mesh
 - **Prod EKS**: Production environment with Istio service mesh
 - **Node Groups**: Auto-scaling worker nodes
 - **IRSA**: IAM roles for service accounts
-
-### Security & Compliance
-- **Wazuh**: Security information and event management
-- **Hashicorp Vault**: Time-Based Token (TBT) management for RDS
-- **AWS Security Hub**: Centralized security findings
-- **GuardDuty**: Threat detection
-- **AWS Config**: Compliance monitoring
-- **AWS WAF**: Web application firewall for external traffic
-
-### Observability
-- **SigNoz**: Application monitoring and alerting
-- **OpenTelemetry**: Distributed tracing and metrics
-- **CloudTrail**: API activity logging
-- **VPC Flow Logs**: Network traffic monitoring
-
-### Application Deployment
-- **ArgoCD**: GitOps continuous deployment
-- **Istio**: Service mesh for traffic management
-- **ECR**: Container image registry
-- **Helm Charts**: Application packaging
-
-### Data Storage
-- **RDS**: Managed databases with encryption
-- **S3**: Object storage with lifecycle policies
-- **DynamoDB**: State locking for Pulumi
-
-## Vault Time-Based Token Management
-
-```mermaid
-graph TB
-    subgraph "Hashicorp Vault"
-        VaultServer[Vault Server]
-        TBTEngine[Time-Based Token Engine]
-        TokenPolicy[Token Policies]
-    end
-    
-    subgraph "Applications"
-        App1[Application 1]
-        App2[Application 2]
-        App3[Application 3]
-    end
-    
-    subgraph "RDS Database"
-        RDSInstance[RDS Instance]
-        TokenAuth[Token Authentication]
-    end
-    
-    VaultServer --> TBTEngine
-    TBTEngine --> TokenPolicy
-    TokenPolicy --> App1
-    TokenPolicy --> App2
-    TokenPolicy --> App3
-    
-    App1 -.->|Request TBT| VaultServer
-    App2 -.->|Request TBT| VaultServer
-    App3 -.->|Request TBT| VaultServer
-    
-    App1 -->|Use TBT| RDSInstance
-    App2 -->|Use TBT| RDSInstance
-    App3 -->|Use TBT| RDSInstance
-    
-    RDSInstance --> TokenAuth
-```
 
 ## Security Zones
 
@@ -324,6 +287,44 @@ graph TB
     SigNoz --> Apps
     Wazuh --> EKS
     Bastion --> EKS
+```
+
+## Vault Time-Based Token Management
+
+```mermaid
+graph TB
+    subgraph "Hashicorp Vault"
+        VaultServer[Vault Server]
+        TBTEngine[Time-Based Token Engine]
+        TokenPolicy[Token Policies]
+    end
+    
+    subgraph "Applications"
+        App1[Application 1]
+        App2[Application 2]
+        App3[Application 3]
+    end
+    
+    subgraph "RDS Database"
+        RDSInstance[RDS Instance]
+        TokenAuth[Token Authentication]
+    end
+    
+    VaultServer --> TBTEngine
+    TBTEngine --> TokenPolicy
+    TokenPolicy --> App1
+    TokenPolicy --> App2
+    TokenPolicy --> App3
+    
+    App1 -.->|Request TBT| VaultServer
+    App2 -.->|Request TBT| VaultServer
+    App3 -.->|Request TBT| VaultServer
+    
+    App1 -->|Use TBT| RDSInstance
+    App2 -->|Use TBT| RDSInstance
+    App3 -->|Use TBT| RDSInstance
+    
+    RDSInstance --> TokenAuth
 ```
 
 ## WAF Configuration
@@ -428,6 +429,106 @@ graph LR
     J --> P
 ```
 
+## Component Details
+
+### Security & Compliance
+- **Wazuh**: Security information and event management
+- **Hashicorp Vault**: Time-Based Token (TBT) management for RDS
+- **AWS Security Hub**: Centralized security findings
+- **GuardDuty**: Threat detection
+- **AWS Config**: Compliance monitoring
+- **AWS WAF**: Web application firewall for external traffic
+
+### Observability
+- **SigNoz**: Application monitoring and alerting
+- **OpenTelemetry**: Distributed tracing and metrics
+- **CloudTrail**: API activity logging
+- **VPC Flow Logs**: Network traffic monitoring
+
+### Application Deployment
+- **ArgoCD**: GitOps continuous deployment
+- **Istio**: Service mesh for traffic management
+- **ECR**: Container image registry
+- **Helm Charts**: Application packaging
+
+### Data Storage
+- **RDS**: Managed databases with encryption
+- **S3**: Object storage with lifecycle policies
+- **DynamoDB**: State locking for Pulumi
+
+## Implementation Plan
+
+### Phase 1: Foundation & Pulumi Setup (Weeks 1-2)
+- Install Pulumi CLI and configure AWS access
+- Set up S3 backend for state management
+- Create project structure and stacks
+- Configure version control
+
+### Phase 2: VPC Architecture (Weeks 3-4)
+- Design and create Dev VPC with subnets
+- Design and create Prod VPC with subnets
+- Configure NAT Gateways and route tables
+
+### Phase 3: IAM Overhaul (Weeks 5-6)
+- Audit existing IAM structure
+- Create role-based access policies
+- Enable IAM Access Analyzer
+- Remove root access keys
+
+### Phase 4: Application Containerization (Weeks 7-10)
+- Inventory existing applications
+- Create Dockerfiles for each application
+- Set up ECR repositories
+- Create Helm charts
+
+### Phase 5: EKS Cluster Setup (Weeks 11-12)
+- Deploy Dev EKS cluster
+- Deploy Prod EKS cluster
+- Install Istio service mesh
+- Configure ingress gateways
+
+### Phase 6: Application Deployment (Weeks 13-14)
+- Deploy applications to Dev EKS
+- Deploy applications to Prod EKS
+- Configure Istio routing
+- Test application connectivity
+
+### Phase 7: Observability - SigNoz (Weeks 15-16)
+- Deploy SigNoz to EKS clusters
+- Configure OpenTelemetry collectors
+- Create dashboards and alerts
+- Instrument applications
+
+### Phase 8: Security - Wazuh (Weeks 17-18)
+- Deploy Wazuh manager
+- Configure AWS integrations
+- Set up security dashboards
+- Configure alerting rules
+
+### Phase 9: Security Hardening (Weeks 19-20)
+- Enable AWS Security Hub
+- Configure VPC Flow Logs
+- Harden security groups and NACLs
+- Enable encryption
+
+### Phase 10: VPN & Network Security (Weeks 21-22)
+- Deploy VPN Gateway
+- Configure VPN connections
+- Set up employee access controls
+- Test secure access
+
+### Phase 11: Hashicorp Vault Integration (Weeks 23-24)
+- Deploy Vault to EKS
+- Configure TBT engine
+- Integrate with applications
+- Set up audit logging
+
+### Phase 12: Cleanup & Finalization (Weeks 25-26)
+- Remove legacy resources
+- Create CI/CD pipelines
+- Document architecture
+- Conduct knowledge transfer
+
 ## Cost Optimization
 
 - **Reserved Instances**: For predictable workloads
@@ -443,4 +544,11 @@ graph LR
 - **Multi-AZ Deployment**: Production workloads
 - **Automated Failover**: RDS and ALB
 - **WAF**: Global protection across regions
-- **Documentation**: Runbooks and procedures 
+- **Documentation**: Runbooks and procedures
+
+## Risk Mitigation
+
+- Each phase includes testing and validation steps
+- Rollback procedures documented for each major change
+- Staged deployment (Dev → Prod) reduces risk
+- Comprehensive documentation ensures knowledge retention 
