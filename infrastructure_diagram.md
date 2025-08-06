@@ -20,6 +20,9 @@ graph TB
             
             subgraph "Dev Private Subnet (10.0.2.0/24)"
                 DevEKS[EKS Cluster - Dev]
+                DevIstio[Istio Service Mesh]
+                DevApps[Containerized Applications]
+                DevOTEL[OpenTelemetry Collectors]
                 DevSigNoz[SigNoz Monitoring]
                 DevVault[Hashicorp Vault - TBT Manager]
             end
@@ -43,6 +46,9 @@ graph TB
             
             subgraph "Prod Private Subnet (10.1.2.0/24)"
                 ProdEKS[EKS Cluster - Prod]
+                ProdIstio[Istio Service Mesh]
+                ProdApps[Containerized Applications]
+                ProdOTEL[OpenTelemetry Collectors]
                 ProdSigNoz[SigNoz Monitoring]
                 ProdVault[Hashicorp Vault - TBT Manager]
             end
@@ -82,21 +88,6 @@ graph TB
         end
     end
     
-    %% EKS Cluster Details
-    subgraph "EKS Cluster Components"
-        subgraph "Dev EKS Cluster"
-            DevIstio[Istio Service Mesh]
-            DevApps[Containerized Applications]
-            DevOTEL[OpenTelemetry Collectors]
-        end
-        
-        subgraph "Prod EKS Cluster"
-            ProdIstio[Istio Service Mesh]
-            ProdApps[Containerized Applications]
-            ProdOTEL[OpenTelemetry Collectors]
-        end
-    end
-    
     %% External Traffic Flow (Public Access)
     Internet --> WAF
     WAF --> DevALB
@@ -111,6 +102,7 @@ graph TB
     DevIGW --> DevALB
     ProdIGW --> ProdALB
     
+    %% EKS Traffic Flow with Istio
     DevALB --> DevEKS
     ProdALB --> ProdEKS
     
@@ -176,6 +168,7 @@ graph TB
     %% Styling
     classDef vpc fill:#e1f5fe
     classDef eks fill:#f3e5f5
+    classDef istio fill:#e8eaf6
     classDef security fill:#ffebee
     classDef monitoring fill:#e8f5e8
     classDef aws fill:#fff3e0
@@ -183,7 +176,8 @@ graph TB
     classDef employee fill:#e0f2f1
     
     class DevVPC,ProdVPC vpc
-    class DevEKS,ProdEKS,DevIstio,ProdIstio,DevApps,ProdApps eks
+    class DevEKS,ProdEKS,DevApps,ProdApps eks
+    class DevIstio,ProdIstio istio
     class DevWazuh,ProdWazuh,DevVault,ProdVault,VPN,WAF security
     class DevSigNoz,ProdSigNoz,DevOTEL,ProdOTEL monitoring
     class IAM,S3,ECR,CloudTrail,GuardDuty,Config,SecurityHub,Inspector,Macie aws
@@ -274,6 +268,98 @@ graph TB
     RDSInstance --> TokenAuth
 ```
 
+## Istio Service Mesh Architecture
+
+```mermaid
+graph TB
+    subgraph "EKS Cluster"
+        subgraph "Ingress Layer"
+            ALB[Application Load Balancer]
+            IngressGateway[Istio Ingress Gateway]
+        end
+        
+        subgraph "Service Mesh Control Plane"
+            Pilot[Pilot - Service Discovery]
+            Citadel[Citadel - Certificate Management]
+            Galley[Galley - Configuration Validation]
+        end
+        
+        subgraph "Data Plane"
+            Proxy1[Envoy Proxy - Service A]
+            Proxy2[Envoy Proxy - Service B]
+            Proxy3[Envoy Proxy - Service C]
+        end
+        
+        subgraph "Applications"
+            ServiceA[Service A]
+            ServiceB[Service B]
+            ServiceC[Service C]
+        end
+        
+        subgraph "Observability"
+            Jaeger[Jaeger - Distributed Tracing]
+            Kiali[Kiali - Service Mesh Visualization]
+            Prometheus[Prometheus - Metrics]
+        end
+    end
+    
+    %% Traffic Flow
+    ALB --> IngressGateway
+    IngressGateway --> Proxy1
+    IngressGateway --> Proxy2
+    IngressGateway --> Proxy3
+    
+    Proxy1 --> ServiceA
+    Proxy2 --> ServiceB
+    Proxy3 --> ServiceC
+    
+    %% Service-to-Service Communication
+    ServiceA --> Proxy1
+    ServiceB --> Proxy2
+    ServiceC --> Proxy3
+    
+    Proxy1 --> Proxy2
+    Proxy2 --> Proxy3
+    Proxy1 --> Proxy3
+    
+    %% Control Plane
+    Pilot --> Proxy1
+    Pilot --> Proxy2
+    Pilot --> Proxy3
+    
+    Citadel --> Proxy1
+    Citadel --> Proxy2
+    Citadel --> Proxy3
+    
+    Galley --> Pilot
+    Galley --> Citadel
+    
+    %% Observability
+    Proxy1 --> Jaeger
+    Proxy2 --> Jaeger
+    Proxy3 --> Jaeger
+    
+    Proxy1 --> Prometheus
+    Proxy2 --> Prometheus
+    Proxy3 --> Prometheus
+    
+    Kiali --> Prometheus
+    Kiali --> Jaeger
+    
+    %% Styling
+    classDef ingress fill:#e3f2fd
+    classDef control fill:#f3e5f5
+    classDef data fill:#e8f5e8
+    classDef app fill:#fff3e0
+    classDef obs fill:#fce4ec
+    
+    class ALB,IngressGateway ingress
+    class Pilot,Citadel,Galley control
+    class Proxy1,Proxy2,Proxy3 data
+    class ServiceA,ServiceB,ServiceC app
+    class Jaeger,Kiali,Prometheus obs
+```
+
 ## Security Zones
 
 ```mermaid
@@ -290,8 +376,8 @@ graph TB
     
     subgraph "Application Zone"
         EKS[EKS Clusters]
-        Apps[Applications]
         Istio[Istio Service Mesh]
+        Apps[Applications]
     end
     
     subgraph "Data Zone"
@@ -316,7 +402,8 @@ graph TB
     VPN --> ALB
     EmployeeVPN --> VPN
     ALB --> EKS
-    EKS --> Apps
+    EKS --> Istio
+    Istio --> Apps
     Apps --> RDS
     Apps --> S3
     Apps --> Vault
