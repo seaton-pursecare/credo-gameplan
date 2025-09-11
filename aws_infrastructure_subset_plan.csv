@@ -1,0 +1,41 @@
+Phase,Week,Task ID,Task,Description,Deliverable,Hours,Dependencies,Status,Notes
+IAM Review & Cleanup,1,1.1,Audit existing IAM users; roles; and policies,Conduct comprehensive IAM audit of all existing users; roles; and policies,IAM audit report,4,AWS access,Not Started,Review all IAM resources in AWS account
+IAM Review & Cleanup,1,1.2,Identify unused and overprivileged access,Analyze IAM usage patterns and identify unused or overprivileged access,Access analysis report,3,IAM audit,Not Started,Use AWS Access Analyzer and CloudTrail logs
+IAM Review & Cleanup,1,1.3,Document current IAM structure,Create comprehensive documentation of current IAM structure,IAM documentation,2,Access analysis,Not Started,Document all users; roles; policies; and relationships
+IAM Review & Cleanup,1,1.4,Design new IAM structure for production,Design new IAM structure with least privilege principles,IAM design document,3,IAM documentation,Not Started,Create role-based access control design
+IAM Review & Cleanup,2,1.5,Remove unused IAM users and roles,Remove all identified unused IAM users and roles,Cleanup completed,3,IAM design,Not Started,Verify no dependencies before removal
+IAM Review & Cleanup,2,1.6,Remove inline policies and unused policies,Remove all inline policies and unused managed policies,Policy cleanup,2,User/role cleanup,Not Started,Replace inline policies with managed policies
+IAM Review & Cleanup,2,1.7,Create new IAM roles for production VPC,Create new IAM roles specifically for production VPC,Production IAM roles,3,Policy cleanup,Not Started,Create roles for VPC; EC2; RDS; and monitoring services
+IAM Review & Cleanup,2,1.8,Implement least privilege policies,Create and implement least privilege IAM policies,Least privilege policies,4,Production roles,Not Started,Use AWS managed policies where possible
+IAM Review & Cleanup,2,1.9,Test new IAM access,Validate that new IAM structure works correctly,IAM validation,2,All IAM changes,Not Started,Test all new roles and policies
+IAM Review & Cleanup,2,1.10,Document IAM procedures,Create runbooks for IAM management procedures,IAM runbooks,2,IAM validation,Not Started,Document procedures for ongoing IAM management
+New Production VPC,3,2.1,Design new production VPC architecture,Create detailed VPC design with subnet layout and security,VPC design document,3,IAM cleanup,Not Started,Design VPC with 4 subnets: public; private; database; security
+New Production VPC,3,2.2,Create new production VPC,Create new VPC with proper CIDR blocks,Production VPC,2,VPC design,Not Started,Create VPC with 10.1.0.0/16 CIDR
+New Production VPC,3,2.3,Create production subnets,Create all required subnets in the production VPC,Production subnets,3,Production VPC,Not Started,Create public; private; database; and security subnets
+New Production VPC,3,2.4,Configure NAT Gateways,Set up NAT Gateways for private subnet internet access,NAT Gateways configured,2,Production subnets,Not Started,Configure NAT Gateways in public subnets
+New Production VPC,3,2.5,Setup route tables,Configure route tables for all subnets,Route tables configured,2,NAT Gateways,Not Started,Create route tables for each subnet type
+New Production VPC,4,2.6,Configure security groups,Create and configure security groups for all components,Security groups configured,3,Route tables,Not Started,Implement least privilege security group rules
+New Production VPC,4,2.7,Setup Network ACLs,Configure Network ACLs for additional security,NACLs configured,2,Security groups,Not Started,Create NACLs for each subnet
+New Production VPC,4,2.8,Enable VPC Flow Logs,Enable VPC Flow Logs for network monitoring,Flow logs enabled,2,NACLs,Not Started,Configure Flow Logs to S3 bucket
+New Production VPC,4,2.9,Configure AWS Config,Enable AWS Config for compliance monitoring,Config enabled,2,Flow logs,Not Started,Configure Config rules for VPC resources
+New Production VPC,4,2.10,Test VPC connectivity,Validate VPC connectivity and security,VPC validation,2,All VPC configs,Not Started,Test connectivity between subnets and to internet
+Security Monitoring - Wazuh,5,3.1,Deploy Wazuh manager,Deploy Wazuh manager in security subnet,Wazuh manager deployed,4,Production VPC,Not Started,Deploy Wazuh on EC2 instance in security subnet
+Security Monitoring - Wazuh,5,3.2,Configure AWS CloudTrail integration,Configure CloudTrail logs to feed into Wazuh,CloudTrail to Wazuh,2,Wazuh manager,Not Started,Set up CloudTrail log collection
+Security Monitoring - Wazuh,5,3.3,Configure AWS GuardDuty integration,Configure GuardDuty findings to feed into Wazuh,GuardDuty to Wazuh,2,Wazuh manager,Not Started,Set up GuardDuty integration
+Security Monitoring - Wazuh,5,3.4,Configure AWS Config integration,Configure Config findings to feed into Wazuh,Config to Wazuh,2,Wazuh manager,Not Started,Set up Config integration
+Security Monitoring - Wazuh,5,3.5,Configure VPC Flow Logs to Wazuh,Configure VPC Flow Logs to feed into Wazuh,Flow logs to Wazuh,2,Wazuh manager,Not Started,Set up Flow Logs collection
+Security Monitoring - Wazuh,6,3.6,Create Wazuh security dashboards,Create comprehensive security dashboards in Wazuh,Security dashboards,4,All integrations,Not Started,Create dashboards for CloudTrail; GuardDuty; Config; and Flow Logs
+Security Monitoring - Wazuh,6,3.7,Configure Wazuh alerting rules,Configure security alerting rules in Wazuh,Security alerting,3,Dashboards,Not Started,Set up alerts for security events
+Security Monitoring - Wazuh,6,3.8,Test security monitoring,Validate that security monitoring is working correctly,Security monitoring validation,3,Alerting rules,Not Started,Test all security monitoring components
+Security Monitoring - Wazuh,6,3.9,Document security procedures,Create runbooks for security monitoring procedures,Security runbooks,2,Security monitoring,Not Started,Document procedures for security monitoring
+Security Monitoring - Wazuh,6,3.10,Train team on Wazuh usage,Conduct training session on Wazuh usage,Team training completed,2,Documentation,Not Started,Train team on Wazuh dashboards and alerts
+Observability - SigNoz,7,4.1,Deploy SigNoz to production VPC,Deploy SigNoz in security subnet,SigNoz deployed,4,Production VPC,Not Started,Deploy SigNoz on EC2 instance in security subnet
+Observability - SigNoz,7,4.2,Configure OpenTelemetry collectors,Configure OTEL collectors for application monitoring,OTEL collectors configured,3,SigNoz deployment,Not Started,Set up OTEL collectors for metrics; traces; and logs
+Observability - SigNoz,7,4.3,Setup log aggregation,Configure log aggregation from applications,Log aggregation configured,3,OTEL collectors,Not Started,Set up log collection from all applications
+Observability - SigNoz,7,4.4,Configure application monitoring,Configure APM for application performance monitoring,APM configured,4,Log aggregation,Not Started,Set up APM for all applications
+Observability - SigNoz,7,4.5,Create SigNoz dashboards,Create application monitoring dashboards,Application dashboards,3,APM configured,Not Started,Create dashboards for application metrics and traces
+Observability - SigNoz,8,4.6,Configure SigNoz alerts,Configure alerting for application issues,Alerting configured,2,Dashboards,Not Started,Set up alerts for application performance issues
+Observability - SigNoz,8,4.7,Test observability stack,Validate that observability stack is working correctly,Observability validation,3,Alerting,Not Started,Test all observability components
+Observability - SigNoz,8,4.8,Document observability procedures,Create runbooks for observability procedures,Observability runbooks,2,Validation,Not Started,Document procedures for observability monitoring
+Observability - SigNoz,8,4.9,Train team on SigNoz usage,Conduct training session on SigNoz usage,Team training completed,2,Documentation,Not Started,Train team on SigNoz dashboards and alerts
+Observability - SigNoz,8,4.10,Final validation and handoff,Conduct final validation and project handoff,Project completion,3,All deliverables,Not Started,Final validation of all components and handoff
