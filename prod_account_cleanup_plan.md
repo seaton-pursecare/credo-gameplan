@@ -206,124 +206,19 @@ graph TB
 | 8 | 4.9 | Conduct final production validation | Final production validation | 3 | Team training |
 | 8 | 4.10 | Complete production environment handoff | Production handoff completed | 2 | Final validation |
 
-## 🔍 Detailed Cleanup Procedures
+## 🔍 Cleanup Approach
 
-### EC2 Instance Cleanup
-```mermaid
-graph TB
-    subgraph "EC2 Cleanup Process"
-        Audit[Audit EC2 Instances]
-        Identify[Identify Unused Instances]
-        Backup[Backup Important Data]
-        Terminate[Terminate Unused Instances]
-        Cleanup[Cleanup EBS Volumes]
-        Validate[Validate Cleanup]
-    end
-    
-    Audit --> Identify
-    Identify --> Backup
-    Backup --> Terminate
-    Terminate --> Cleanup
-    Cleanup --> Validate
-    
-    %% Styling
-    classDef process fill:#e3f2fd
-    class Audit,Identify,Backup,Terminate,Cleanup,Validate process
-```
+### Resource Cleanup Strategy
+- **Identify unused resources** based on Dev account findings
+- **Remove resources** that were successfully migrated to Dev
+- **Clean up development-specific resources** no longer needed
+- **Optimize remaining production resources** for efficiency
 
-### RDS Cleanup Process
-```mermaid
-graph TB
-    subgraph "RDS Cleanup Process"
-        Audit[Audit RDS Instances]
-        Identify[Identify Unused Instances]
-        Snapshot[Create Final Snapshots]
-        Terminate[Terminate Unused Instances]
-        Cleanup[Cleanup Old Snapshots]
-        Validate[Validate Cleanup]
-    end
-    
-    Audit --> Identify
-    Identify --> Snapshot
-    Snapshot --> Terminate
-    Terminate --> Cleanup
-    Cleanup --> Validate
-    
-    %% Styling
-    classDef process fill:#e8f5e8
-    class Audit,Identify,Snapshot,Terminate,Cleanup,Validate process
-```
-
-### S3 Cleanup Process
-```mermaid
-graph TB
-    subgraph "S3 Cleanup Process"
-        Audit[Audit S3 Buckets]
-        Identify[Identify Unused Buckets]
-        Backup[Backup Important Data]
-        Delete[Delete Unused Buckets]
-        Lifecycle[Configure Lifecycle Policies]
-        Validate[Validate Cleanup]
-    end
-    
-    Audit --> Identify
-    Identify --> Backup
-    Backup --> Delete
-    Delete --> Lifecycle
-    Lifecycle --> Validate
-    
-    %% Styling
-    classDef process fill:#fff3e0
-    class Audit,Identify,Backup,Delete,Lifecycle,Validate process
-```
-
-## 🔒 IAM Cleanup Strategy
-
-### IAM Audit Process
-```mermaid
-graph TB
-    subgraph "IAM Audit Process"
-        Users[Audit IAM Users]
-        Roles[Audit IAM Roles]
-        Policies[Audit IAM Policies]
-        Groups[Audit IAM Groups]
-        Usage[Analyze Usage Patterns]
-        Unused[Identify Unused Resources]
-    end
-    
-    Users --> Roles
-    Roles --> Policies
-    Policies --> Groups
-    Groups --> Usage
-    Usage --> Unused
-    
-    %% Styling
-    classDef audit fill:#ffebee
-    class Users,Roles,Policies,Groups,Usage,Unused audit
-```
-
-### IAM Cleanup Process
-```mermaid
-graph TB
-    subgraph "IAM Cleanup Process"
-        Unused[Identify Unused IAM]
-        Backup[Backup IAM Configurations]
-        Remove[Remove Unused Resources]
-        Consolidate[Consolidate Policies]
-        Optimize[Optimize Permissions]
-        Validate[Validate IAM Changes]
-    end
-    
-    Unused --> Backup
-    Backup --> Remove
-    Remove --> Consolidate
-    Consolidate --> Optimize
-    Optimize --> Validate
-    
-    %% Styling
-    classDef cleanup fill:#e8f5e8
-    class Unused,Backup,Remove,Consolidate,Optimize,Validate cleanup
-```
+### IAM Cleanup Strategy
+- **Apply Dev IAM patterns** to production environment
+- **Remove unused users, roles, and policies** identified in Dev work
+- **Implement least privilege access** using Dev learnings
+- **Consolidate and optimize** IAM configurations
 
 ## 📊 Cost Optimization
 
@@ -333,25 +228,6 @@ graph TB
 - **Implement cost monitoring** to track savings
 - **Document cost optimization** procedures
 
-### Cost Monitoring
-```mermaid
-graph TB
-    subgraph "Cost Monitoring"
-        Billing[Billing Dashboard]
-        Alerts[Cost Alerts]
-        Reports[Cost Reports]
-        Optimization[Cost Optimization]
-    end
-    
-    Billing --> Alerts
-    Alerts --> Reports
-    Reports --> Optimization
-    
-    %% Styling
-    classDef cost fill:#fff3e0
-    class Billing,Alerts,Reports,Optimization cost
-```
-
 ## 🚨 Security Hardening
 
 ### Security Improvements
@@ -359,25 +235,6 @@ graph TB
 - **Monitoring**: Enhanced security monitoring
 - **Compliance**: Automated compliance checking
 - **Backup**: Comprehensive backup and recovery
-
-### Security Monitoring
-```mermaid
-graph TB
-    subgraph "Security Monitoring"
-        CloudTrail[CloudTrail Logging]
-        GuardDuty[GuardDuty Detection]
-        Config[AWS Config]
-        SecurityHub[Security Hub]
-    end
-    
-    CloudTrail --> GuardDuty
-    GuardDuty --> Config
-    Config --> SecurityHub
-    
-    %% Styling
-    classDef security fill:#ffebee
-    class CloudTrail,GuardDuty,Config,SecurityHub security
-```
 
 ## 📈 Success Metrics
 
