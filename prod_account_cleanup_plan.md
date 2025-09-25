@@ -2,7 +2,7 @@
 
 ## Overview
 
-This plan focuses on cleaning up the existing AWS account that will become production-only after the Dev account is established. The goal is to remove unused resources, clean up IAM, and optimize the production environment for security and cost efficiency.
+This plan focuses on cleaning up the existing AWS account that will become production-only after the Dev account is established. **The cleanup will be based on findings and learnings from the Dev account setup and resource import process.** The goal is to remove unused resources, clean up IAM, and optimize the production environment for security and cost efficiency.
 
 ## 🎯 Cleanup Goals
 
@@ -14,29 +14,31 @@ This plan focuses on cleaning up the existing AWS account that will become produ
 
 ## 📋 Cleanup Scope
 
-### Phase 1: Resource Audit & Analysis (Weeks 1-2)
-- Comprehensive audit of all AWS resources
-- Identify unused and underutilized resources
-- Document resource dependencies
-- Create cleanup prioritization
+**Note: This cleanup will be executed AFTER the Dev account setup and resource import process is complete. The cleanup approach will be based on findings from the Dev account work.**
 
-### Phase 2: IAM Cleanup (Weeks 3-4)
-- Audit all IAM users, roles, and policies
-- Remove unused and overprivileged access
-- Implement least privilege principles
+### Phase 1: Apply Dev Account Learnings (Weeks 1-2)
+- Apply IAM cleanup strategies learned from Dev account
+- Use resource import findings to identify unused resources
+- Apply security best practices from Dev account setup
+- Document production-specific requirements
+
+### Phase 2: IAM Cleanup Based on Dev Learnings (Weeks 3-4)
+- Apply IAM cleanup patterns from Dev account
+- Remove unused and overprivileged access identified in Dev work
+- Implement least privilege principles learned from Dev setup
 - Clean up inline policies and unused policies
 
-### Phase 3: Resource Cleanup (Weeks 5-6)
-- Remove unused EC2 instances and volumes
-- Clean up unused RDS instances and snapshots
-- Remove unused Lambda functions
-- Clean up unused S3 buckets and objects
+### Phase 3: Resource Cleanup Based on Dev Findings (Weeks 5-6)
+- Remove resources identified as unused during Dev import process
+- Clean up resources that were successfully migrated to Dev
+- Remove development-specific resources that are no longer needed
+- Optimize remaining production resources
 
-### Phase 4: Security Hardening (Weeks 7-8)
-- Implement security best practices
-- Configure monitoring and alerting
-- Set up compliance monitoring
-- Document production procedures
+### Phase 4: Production Security Hardening (Weeks 7-8)
+- Implement production-specific security best practices
+- Configure monitoring and alerting for production workloads
+- Set up compliance monitoring for production environment
+- Document production procedures and runbooks
 
 ## 🏗️ Cleanup Architecture
 
@@ -144,65 +146,65 @@ graph TB
 
 ## 📚 Implementation Timeline
 
-### Phase 1: Resource Audit & Analysis (Weeks 1-2)
+### Phase 1: Apply Dev Account Learnings (Weeks 1-2)
 
 | Week | Task | Description | Deliverable | Hours | Dependencies |
 |------|------|-------------|-------------|-------|--------------|
-| 1 | 1.1 | Audit all EC2 instances and volumes | EC2 audit report | 4 | None |
-| 1 | 1.2 | Audit all RDS instances and snapshots | RDS audit report | 3 | EC2 audit |
-| 1 | 1.3 | Audit all Lambda functions | Lambda audit report | 2 | RDS audit |
-| 1 | 1.4 | Audit all S3 buckets and objects | S3 audit report | 3 | Lambda audit |
-| 1 | 1.5 | Audit ElasticBeanstalk applications | EB audit report | 2 | S3 audit |
-| 2 | 1.6 | Audit Route53 records and hosted zones | Route53 audit report | 2 | EB audit |
-| 2 | 1.7 | Audit Cognito user pools | Cognito audit report | 2 | Route53 audit |
-| 2 | 1.8 | Identify unused and underutilized resources | Unused resources list | 4 | All audits |
-| 2 | 1.9 | Create cleanup prioritization | Cleanup priority list | 3 | Unused resources |
-| 2 | 1.10 | Document resource dependencies | Dependencies map | 3 | Cleanup priority |
+| 1 | 1.1 | Review Dev account IAM cleanup findings | Dev IAM findings review | 3 | Dev account complete |
+| 1 | 1.2 | Apply IAM cleanup strategies to production | Production IAM cleanup plan | 4 | Dev findings review |
+| 1 | 1.3 | Review Dev account resource import findings | Dev resource findings review | 3 | IAM cleanup plan |
+| 1 | 1.4 | Identify production resources for cleanup | Production cleanup list | 4 | Dev resource findings |
+| 1 | 1.5 | Apply security best practices from Dev | Production security plan | 3 | Production cleanup list |
+| 2 | 1.6 | Document production-specific requirements | Production requirements doc | 2 | Security plan |
+| 2 | 1.7 | Create production cleanup prioritization | Production cleanup priority | 3 | Requirements doc |
+| 2 | 1.8 | Plan production resource optimization | Resource optimization plan | 3 | Cleanup priority |
+| 2 | 1.9 | Document production dependencies | Production dependencies map | 2 | Optimization plan |
+| 2 | 1.10 | Validate cleanup approach with stakeholders | Stakeholder validation | 2 | Dependencies map |
 
-### Phase 2: IAM Cleanup (Weeks 3-4)
-
-| Week | Task | Description | Deliverable | Hours | Dependencies |
-|------|------|-------------|-------------|-------|--------------|
-| 3 | 2.1 | Audit all IAM users | IAM users audit | 3 | Resource audit |
-| 3 | 2.2 | Audit all IAM roles | IAM roles audit | 4 | Users audit |
-| 3 | 2.3 | Audit all IAM policies | IAM policies audit | 4 | Roles audit |
-| 3 | 2.4 | Audit IAM groups | IAM groups audit | 2 | Policies audit |
-| 3 | 2.5 | Identify unused IAM resources | Unused IAM list | 3 | Groups audit |
-| 4 | 2.6 | Remove unused IAM users | Unused users removed | 2 | Unused IAM list |
-| 4 | 2.7 | Remove unused IAM roles | Unused roles removed | 3 | Users removed |
-| 4 | 2.8 | Remove unused IAM policies | Unused policies removed | 3 | Roles removed |
-| 4 | 2.9 | Clean up inline policies | Inline policies cleaned | 2 | Policies removed |
-| 4 | 2.10 | Implement least privilege access | Least privilege implemented | 4 | Inline policies cleaned |
-
-### Phase 3: Resource Cleanup (Weeks 5-6)
+### Phase 2: IAM Cleanup Based on Dev Learnings (Weeks 3-4)
 
 | Week | Task | Description | Deliverable | Hours | Dependencies |
 |------|------|-------------|-------------|-------|--------------|
-| 5 | 3.1 | Remove unused EC2 instances | Unused EC2 removed | 3 | IAM cleanup |
-| 5 | 3.2 | Remove unused EBS volumes | Unused volumes removed | 2 | EC2 cleanup |
-| 5 | 3.3 | Remove unused RDS instances | Unused RDS removed | 3 | Volumes cleanup |
-| 5 | 3.4 | Clean up RDS snapshots | Old snapshots removed | 2 | RDS cleanup |
-| 5 | 3.5 | Remove unused Lambda functions | Unused Lambda removed | 2 | RDS snapshots |
-| 6 | 3.6 | Clean up unused S3 buckets | Unused buckets removed | 3 | Lambda cleanup |
-| 6 | 3.7 | Clean up S3 objects | Old objects removed | 2 | S3 buckets |
-| 6 | 3.8 | Remove unused ElasticBeanstalk | Unused EB removed | 2 | S3 objects |
-| 6 | 3.9 | Clean up unused Route53 records | Unused records removed | 2 | EB cleanup |
-| 6 | 3.10 | Optimize Cognito configuration | Cognito optimized | 3 | Route53 cleanup |
+| 3 | 2.1 | Apply Dev IAM cleanup patterns to production | Production IAM cleanup | 3 | Dev learnings applied |
+| 3 | 2.2 | Remove unused IAM users identified in Dev work | Unused users removed | 2 | IAM cleanup applied |
+| 3 | 2.3 | Remove unused IAM roles identified in Dev work | Unused roles removed | 3 | Users removed |
+| 3 | 2.4 | Remove unused IAM policies identified in Dev work | Unused policies removed | 3 | Roles removed |
+| 3 | 2.5 | Clean up inline policies using Dev patterns | Inline policies cleaned | 2 | Policies removed |
+| 4 | 2.6 | Implement least privilege access from Dev learnings | Least privilege implemented | 4 | Inline policies cleaned |
+| 4 | 2.7 | Apply Dev security best practices to production | Production security applied | 3 | Least privilege implemented |
+| 4 | 2.8 | Configure production-specific IAM monitoring | IAM monitoring configured | 2 | Security applied |
+| 4 | 2.9 | Validate IAM cleanup with production workloads | IAM validation completed | 3 | Monitoring configured |
+| 4 | 2.10 | Document production IAM procedures | Production IAM runbooks | 2 | Validation completed |
 
-### Phase 4: Security Hardening (Weeks 7-8)
+### Phase 3: Resource Cleanup Based on Dev Findings (Weeks 5-6)
 
 | Week | Task | Description | Deliverable | Hours | Dependencies |
 |------|------|-------------|-------------|-------|--------------|
-| 7 | 4.1 | Implement security best practices | Security best practices | 4 | Resource cleanup |
-| 7 | 4.2 | Configure monitoring and alerting | Monitoring configured | 3 | Security practices |
-| 7 | 4.3 | Set up compliance monitoring | Compliance monitoring | 3 | Monitoring setup |
-| 7 | 4.4 | Configure backup and recovery | Backup configured | 2 | Compliance setup |
-| 7 | 4.5 | Implement access logging | Access logging enabled | 2 | Backup setup |
-| 8 | 4.6 | Test security configurations | Security testing | 3 | Access logging |
-| 8 | 4.7 | Document production procedures | Production runbooks | 4 | Security testing |
-| 8 | 4.8 | Train team on production procedures | Team training | 3 | Documentation |
-| 8 | 4.9 | Conduct final validation | Final validation | 3 | Team training |
-| 8 | 4.10 | Complete production handoff | Production handoff | 2 | Final validation |
+| 5 | 3.1 | Remove resources identified as unused in Dev import | Unused resources removed | 3 | IAM cleanup |
+| 5 | 3.2 | Clean up resources successfully migrated to Dev | Migrated resources cleaned | 2 | Unused resources removed |
+| 5 | 3.3 | Remove development-specific resources no longer needed | Dev resources removed | 3 | Migrated resources cleaned |
+| 5 | 3.4 | Optimize remaining production resources | Production resources optimized | 2 | Dev resources removed |
+| 5 | 3.5 | Apply Dev cost optimization strategies to production | Production cost optimized | 2 | Resources optimized |
+| 6 | 3.6 | Validate production resource functionality | Resource functionality validated | 3 | Cost optimized |
+| 6 | 3.7 | Configure production-specific monitoring | Production monitoring configured | 2 | Functionality validated |
+| 6 | 3.8 | Implement production backup strategies | Production backup implemented | 2 | Monitoring configured |
+| 6 | 3.9 | Document production resource procedures | Production resource runbooks | 2 | Backup implemented |
+| 6 | 3.10 | Train team on production resource management | Team training completed | 3 | Documentation completed |
+
+### Phase 4: Production Security Hardening (Weeks 7-8)
+
+| Week | Task | Description | Deliverable | Hours | Dependencies |
+|------|------|-------------|-------------|-------|--------------|
+| 7 | 4.1 | Implement production-specific security best practices | Production security implemented | 4 | Resource cleanup |
+| 7 | 4.2 | Configure production monitoring and alerting | Production monitoring configured | 3 | Security implemented |
+| 7 | 4.3 | Set up production compliance monitoring | Production compliance configured | 3 | Monitoring configured |
+| 7 | 4.4 | Configure production backup and recovery | Production backup configured | 2 | Compliance configured |
+| 7 | 4.5 | Implement production access logging | Production logging enabled | 2 | Backup configured |
+| 8 | 4.6 | Test production security configurations | Production security testing | 3 | Logging enabled |
+| 8 | 4.7 | Document production procedures and runbooks | Production runbooks completed | 4 | Security testing |
+| 8 | 4.8 | Train team on production procedures | Production team training | 3 | Documentation completed |
+| 8 | 4.9 | Conduct final production validation | Final production validation | 3 | Team training |
+| 8 | 4.10 | Complete production environment handoff | Production handoff completed | 2 | Final validation |
 
 ## 🔍 Detailed Cleanup Procedures
 
