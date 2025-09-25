@@ -41,165 +41,62 @@ This document provides a detailed strategy for cleaning up IAM in the production
 ## 🔍 IAM Audit Process
 
 ### Step 1: Comprehensive Audit
-```mermaid
-graph TB
-    subgraph "IAM Audit Process"
-        Users[Audit IAM Users]
-        Roles[Audit IAM Roles]
-        Policies[Audit IAM Policies]
-        Groups[Audit IAM Groups]
-        Usage[Analyze Usage Patterns]
-        Dependencies[Map Dependencies]
-    end
-    
-    Users --> Roles
-    Roles --> Policies
-    Policies --> Groups
-    Groups --> Usage
-    Usage --> Dependencies
-    
-    %% Styling
-    classDef audit fill:#e3f2fd
-    class Users,Roles,Policies,Groups,Usage,Dependencies audit
-```
+- **Audit IAM Users**: Review all users and their access patterns
+- **Audit IAM Roles**: Review all roles and their usage
+- **Audit IAM Policies**: Review all policies and their attachments
+- **Audit IAM Groups**: Review all groups and their memberships
+- **Analyze Usage Patterns**: Identify usage patterns and dependencies
+- **Map Dependencies**: Document all IAM relationships
 
 ### Step 2: Identify Unused Resources
-```mermaid
-graph TB
-    subgraph "Unused Resource Identification"
-        UnusedUsers[Unused Users]
-        UnusedRoles[Unused Roles]
-        UnusedPolicies[Unused Policies]
-        UnusedGroups[Unused Groups]
-        Overprivileged[Overprivileged Access]
-        InlinePolicies[Inline Policies]
-    end
-    
-    UnusedUsers --> UnusedRoles
-    UnusedRoles --> UnusedPolicies
-    UnusedPolicies --> UnusedGroups
-    UnusedGroups --> Overprivileged
-    Overprivileged --> InlinePolicies
-    
-    %% Styling
-    classDef unused fill:#ffebee
-    class UnusedUsers,UnusedRoles,UnusedPolicies,UnusedGroups,Overprivileged,InlinePolicies unused
-```
+- **Unused Users**: Identify users with no recent activity
+- **Unused Roles**: Identify roles not being used
+- **Unused Policies**: Identify policies not attached to anything
+- **Unused Groups**: Identify groups with no members
+- **Overprivileged Access**: Identify excessive permissions
+- **Inline Policies**: Identify inline policies to be replaced
 
 ## 🧹 IAM Cleanup Procedures
 
-### Users Cleanup
-```mermaid
-graph TB
-    subgraph "Users Cleanup Process"
-        Audit[Audit Users]
-        Identify[Identify Unused]
-        Backup[Backup Configurations]
-        Remove[Remove Unused Users]
-        Consolidate[Consolidate Access]
-        Validate[Validate Changes]
-    end
-    
-    Audit --> Identify
-    Identify --> Backup
-    Backup --> Remove
-    Remove --> Consolidate
-    Consolidate --> Validate
-    
-    %% Styling
-    classDef process fill:#e8f5e8
-    class Audit,Identify,Backup,Remove,Consolidate,Validate process
-```
+### Users Cleanup Process
+- **Audit Users**: Review all users and their access patterns
+- **Identify Unused**: Find users with no recent activity
+- **Backup Configurations**: Export user configurations before changes
+- **Remove Unused Users**: Delete users that are no longer needed
+- **Consolidate Access**: Merge similar user access patterns
+- **Validate Changes**: Test that remaining users still have proper access
 
-### Roles Cleanup
-```mermaid
-graph TB
-    subgraph "Roles Cleanup Process"
-        Audit[Audit Roles]
-        Identify[Identify Unused]
-        Backup[Backup Configurations]
-        Remove[Remove Unused Roles]
-        Consolidate[Consolidate Similar Roles]
-        Validate[Validate Changes]
-    end
-    
-    Audit --> Identify
-    Identify --> Backup
-    Backup --> Remove
-    Remove --> Consolidate
-    Consolidate --> Validate
-    
-    %% Styling
-    classDef process fill:#e3f2fd
-    class Audit,Identify,Backup,Remove,Consolidate,Validate process
-```
+### Roles Cleanup Process
+- **Audit Roles**: Review all roles and their usage
+- **Identify Unused**: Find roles not being used
+- **Backup Configurations**: Export role configurations before changes
+- **Remove Unused Roles**: Delete roles that are no longer needed
+- **Consolidate Similar Roles**: Merge roles with similar permissions
+- **Validate Changes**: Test that remaining roles still function properly
 
-### Policies Cleanup
-```mermaid
-graph TB
-    subgraph "Policies Cleanup Process"
-        Audit[Audit Policies]
-        Identify[Identify Unused]
-        Backup[Backup Configurations]
-        Remove[Remove Unused Policies]
-        Consolidate[Consolidate Similar Policies]
-        Validate[Validate Changes]
-    end
-    
-    Audit --> Identify
-    Identify --> Backup
-    Backup --> Remove
-    Remove --> Consolidate
-    Consolidate --> Validate
-    
-    %% Styling
-    classDef process fill:#fff3e0
-    class Audit,Identify,Backup,Remove,Consolidate,Validate process
-```
+### Policies Cleanup Process
+- **Audit Policies**: Review all policies and their attachments
+- **Identify Unused**: Find policies not attached to anything
+- **Backup Configurations**: Export policy configurations before changes
+- **Remove Unused Policies**: Delete policies that are no longer needed
+- **Consolidate Similar Policies**: Merge policies with similar permissions
+- **Validate Changes**: Test that remaining policies still work correctly
 
 ## 🔒 Security Hardening
 
 ### Least Privilege Implementation
-```mermaid
-graph TB
-    subgraph "Least Privilege Implementation"
-        Analyze[Analyze Current Access]
-        Identify[Identify Overprivileged Access]
-        Reduce[Reduce Permissions]
-        Test[Test Access]
-        Monitor[Monitor Usage]
-        Optimize[Optimize Access]
-    end
-    
-    Analyze --> Identify
-    Identify --> Reduce
-    Reduce --> Test
-    Test --> Monitor
-    Monitor --> Optimize
-    
-    %% Styling
-    classDef security fill:#ffebee
-    class Analyze,Identify,Reduce,Test,Monitor,Optimize security
-```
+- **Analyze Current Access**: Review existing permissions and access patterns
+- **Identify Overprivileged Access**: Find users/roles with excessive permissions
+- **Reduce Permissions**: Minimize permissions to only what's necessary
+- **Test Access**: Validate that reduced permissions still allow necessary operations
+- **Monitor Usage**: Track how permissions are being used
+- **Optimize Access**: Fine-tune permissions based on actual usage patterns
 
 ### Access Monitoring
-```mermaid
-graph TB
-    subgraph "Access Monitoring"
-        CloudTrail[CloudTrail Logging]
-        AccessAnalyzer[Access Analyzer]
-        Config[AWS Config]
-        SecurityHub[Security Hub]
-    end
-    
-    CloudTrail --> AccessAnalyzer
-    AccessAnalyzer --> Config
-    Config --> SecurityHub
-    
-    %% Styling
-    classDef monitoring fill:#e8f5e8
-    class CloudTrail,AccessAnalyzer,Config,SecurityHub monitoring
-```
+- **CloudTrail Logging**: Enable comprehensive logging of all IAM activities
+- **Access Analyzer**: Use AWS Access Analyzer to identify unused permissions
+- **AWS Config**: Monitor IAM configuration changes and compliance
+- **Security Hub**: Centralize security findings and compliance monitoring
 
 ## 📊 IAM Cleanup Goals
 
