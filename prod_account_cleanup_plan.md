@@ -116,83 +116,21 @@ This plan focuses on cleaning up the existing AWS account that will become produ
 | 8 | 4.9 | Conduct final production validation | Final production validation | 3 | Team training |
 | 8 | 4.10 | Complete production environment handoff | Production handoff completed | 2 | Final validation |
 
-## 🔍 Cleanup Approach
+## 🎯 Key Objectives
 
-### Resource Cleanup Strategy
-- **Identify unused resources** based on Dev account findings
-- **Remove resources** that were successfully migrated to Dev
-- **Clean up development-specific resources** no longer needed
-- **Optimize remaining production resources** for efficiency
+- **Apply Dev Account Learnings**: Use findings from Dev account setup to guide production cleanup
+- **Remove Unused Resources**: Clean up resources identified as unused during Dev import process
+- **Optimize IAM**: Apply Dev IAM cleanup patterns to production environment
+- **Enhance Security**: Implement production-specific security best practices
+- **Cost Optimization**: Achieve measurable cost savings through cleanup
 
-### IAM Cleanup Strategy
-- **Apply Dev IAM patterns** to production environment
-- **Remove unused users, roles, and policies** identified in Dev work
-- **Implement least privilege access** using Dev learnings
-- **Consolidate and optimize** IAM configurations
+## 📈 Success Criteria
 
-## 📊 Cost Optimization
-
-### Cost Optimization Goals
-- **Identify and remove unused resources** to reduce costs
-- **Optimize resource utilization** for better efficiency
-- **Implement cost monitoring** to track savings
-- **Document cost optimization** procedures
-
-## 🚨 Security Hardening
-
-### Security Improvements
-- **Access Control**: Implement least privilege access
-- **Monitoring**: Enhanced security monitoring
-- **Compliance**: Automated compliance checking
-- **Backup**: Comprehensive backup and recovery
-
-## 📈 Success Metrics
-
-### Technical Metrics
 - **Resource Cleanup**: Remove all identified unused resources
 - **Cost Optimization**: Achieve measurable cost savings
-- **Security Score**: Improved security posture
-- **Compliance**: Meet all compliance requirements
-
-### Business Metrics
-- **Cost Optimization**: Achieve cost savings through cleanup
 - **Security**: Enhanced security posture
-- **Efficiency**: Improved operational efficiency
-- **Compliance**: Better compliance management
-
-## 🎯 Deliverables
-
-### Phase 1 Deliverables
-- Comprehensive resource audit reports
-- Unused resources identification
-- Cleanup prioritization plan
-- Dependencies mapping
-
-### Phase 2 Deliverables
-- IAM audit reports
-- Unused IAM resources removed
-- Least privilege access implemented
-- IAM best practices documentation
-
-### Phase 3 Deliverables
-- Unused resources removed
-- Cost optimization achieved
-- Resource cleanup validation
-- Cleanup procedures documentation
-
-### Phase 4 Deliverables
-- Security hardening completed
-- Monitoring and alerting configured
-- Production procedures documented
-- Team training completed
-
-## 🚀 Next Steps
-
-1. **Stakeholder Approval**: Get approval for cleanup plan
-2. **Resource Allocation**: Allocate necessary resources
-3. **Timeline Confirmation**: Confirm 8-week timeline
-4. **Team Preparation**: Prepare cleanup team
-5. **Communication**: Begin stakeholder communication
+- **Compliance**: Meet all compliance requirements
+- **Documentation**: Complete production procedures and runbooks
 
 ---
 
