@@ -106,15 +106,15 @@ This plan focuses on cleaning up the existing AWS account that will become produ
 | Week | Task | Description | Deliverable | Hours | Dependencies |
 |------|------|-------------|-------------|-------|--------------|
 | 7 | 4.1 | Implement production-specific security best practices | Production security implemented | 4 | Resource cleanup |
-| 7 | 4.2 | Configure production monitoring and alerting | Production monitoring configured | 3 | Security implemented |
-| 7 | 4.3 | Set up production compliance monitoring | Production compliance configured | 3 | Monitoring configured |
-| 7 | 4.4 | Configure production backup and recovery | Production backup configured | 2 | Compliance configured |
-| 7 | 4.5 | Implement production access logging | Production logging enabled | 2 | Backup configured |
-| 8 | 4.6 | Test production security configurations | Production security testing | 3 | Logging enabled |
-| 8 | 4.7 | Document production procedures and runbooks | Production runbooks completed | 4 | Security testing |
-| 8 | 4.8 | Train team on production procedures | Production team training | 3 | Documentation completed |
-| 8 | 4.9 | Conduct final production validation | Final production validation | 3 | Team training |
-| 8 | 4.10 | Complete production environment handoff | Production handoff completed | 2 | Final validation |
+| 7 | 4.2 | Evaluate Wazuh deployment for production security monitoring | Wazuh assessment completed | 3 | Security implemented |
+| 7 | 4.3 | Evaluate SigNoz deployment for production observability | SigNoz assessment completed | 3 | Wazuh assessment |
+| 7 | 4.4 | Configure production monitoring and alerting | Production monitoring configured | 2 | SigNoz assessment |
+| 7 | 4.5 | Set up production compliance monitoring | Production compliance configured | 2 | Monitoring configured |
+| 8 | 4.6 | Configure production backup and recovery | Production backup configured | 2 | Compliance configured |
+| 8 | 4.7 | Implement production access logging | Production logging enabled | 2 | Backup configured |
+| 8 | 4.8 | Test production security configurations | Production security testing | 3 | Logging enabled |
+| 8 | 4.9 | Document production procedures and runbooks | Production runbooks completed | 4 | Security testing |
+| 8 | 4.10 | Train team on production procedures | Production team training | 3 | Documentation completed |
 
 ## 🎯 Key Objectives
 
@@ -124,12 +124,27 @@ This plan focuses on cleaning up the existing AWS account that will become produ
 - **Enhance Security**: Implement production-specific security best practices
 - **Cost Optimization**: Achieve measurable cost savings through cleanup
 
+## 🔒 Security & Monitoring
+
+### Security Hardening
+- **Access Control**: Implement least privilege access
+- **Monitoring**: Enhanced security monitoring
+- **Compliance**: Automated compliance checking
+- **Backup**: Comprehensive backup and recovery
+
+### Monitoring Tools Evaluation
+- **Wazuh Assessment**: Evaluate Wazuh deployment for production security monitoring
+- **SigNoz Assessment**: Evaluate SigNoz deployment for production observability
+- **Tool Integration**: Integrate security and observability tools with production workloads
+- **Alerting Configuration**: Set up production-specific alerting and monitoring
+
 ## 📈 Success Criteria
 
 - **Resource Cleanup**: Remove all identified unused resources
 - **Cost Optimization**: Achieve measurable cost savings
-- **Security**: Enhanced security posture
+- **Security**: Enhanced security posture with Wazuh and SigNoz
 - **Compliance**: Meet all compliance requirements
+- **Monitoring**: Production monitoring and alerting configured
 - **Documentation**: Complete production procedures and runbooks
 
 ---
