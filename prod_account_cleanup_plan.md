@@ -40,109 +40,19 @@ This plan focuses on cleaning up the existing AWS account that will become produ
 - Set up compliance monitoring for production environment
 - Document production procedures and runbooks
 
-## 🏗️ Cleanup Architecture
+## 🏗️ Cleanup Approach
 
-### Current State Analysis
-```mermaid
-graph TB
-    subgraph "Current Production Account"
-        subgraph "Resources to Audit"
-            EC2[EC2 Instances]
-            RDS[RDS Instances]
-            Lambda[Lambda Functions]
-            S3[S3 Buckets]
-            EB[ElasticBeanstalk]
-            Route53[Route53 Records]
-            Cognito[Cognito Pools]
-        end
-        
-        subgraph "IAM to Clean"
-            Users[IAM Users]
-            Roles[IAM Roles]
-            Policies[IAM Policies]
-            Groups[IAM Groups]
-        end
-        
-        subgraph "Cost Optimization"
-            Unused[Unused Resources]
-            Underutilized[Underutilized Resources]
-            Overprovisioned[Overprovisioned Resources]
-        end
-    end
-    
-    %% Audit Flow
-    EC2 --> Unused
-    RDS --> Underutilized
-    Lambda --> Overprovisioned
-    S3 --> Unused
-    EB --> Underutilized
-    Route53 --> Overprovisioned
-    Cognito --> Unused
-    
-    %% IAM Cleanup
-    Users --> Policies
-    Roles --> Policies
-    Policies --> Groups
-    
-    %% Styling
-    classDef resources fill:#e3f2fd
-    classDef iam fill:#ffebee
-    classDef cost fill:#e8f5e8
-    
-    class EC2,RDS,Lambda,S3,EB,Route53,Cognito resources
-    class Users,Roles,Policies,Groups iam
-    class Unused,Underutilized,Overprovisioned cost
-```
+### Current State
+- **Mixed Environment**: Current account contains both production and development resources
+- **Unused Resources**: Resources that are no longer needed or underutilized
+- **IAM Complexity**: Overprivileged access and unused IAM resources
+- **Cost Inefficiency**: Resources not optimized for production-only use
 
 ### Target State
-```mermaid
-graph TB
-    subgraph "Cleaned Production Account"
-        subgraph "Optimized Resources"
-            ProdEC2[Production EC2]
-            ProdRDS[Production RDS]
-            ProdLambda[Production Lambda]
-            ProdS3[Production S3]
-            ProdEB[Production EB]
-            ProdRoute53[Production Route53]
-            ProdCognito[Production Cognito]
-        end
-        
-        subgraph "Clean IAM"
-            ProdUsers[Production Users]
-            ProdRoles[Production Roles]
-            ProdPolicies[Production Policies]
-            ProdGroups[Production Groups]
-        end
-        
-        subgraph "Security & Monitoring"
-            Security[Security Controls]
-            Monitoring[Monitoring & Alerting]
-            Compliance[Compliance]
-            Backup[Backup & Recovery]
-        end
-    end
-    
-    %% Production Flow
-    ProdEC2 --> Security
-    ProdRDS --> Monitoring
-    ProdLambda --> Compliance
-    ProdS3 --> Backup
-    
-    %% IAM Flow
-    ProdUsers --> ProdRoles
-    ProdRoles --> ProdPolicies
-    ProdPolicies --> ProdGroups
-    
-    %% Styling
-    classDef prod fill:#e8f5e8
-    classDef iam fill:#e3f2fd
-    classDef security fill:#ffebee
-    
-    class ProdEC2,ProdRDS,ProdLambda,ProdS3,ProdEB,ProdRoute53,ProdCognito prod
-    class ProdUsers,ProdRoles,ProdPolicies,ProdGroups iam
-    class Security,Monitoring,Compliance,Backup security
-```
+- **Production-Only**: Clean production environment with only necessary resources
+- **Optimized IAM**: Least privilege access with clean IAM structure
+- **Cost Optimized**: Efficient resource utilization and cost management
+- **Security Hardened**: Enhanced security posture and monitoring
 
 ## 📚 Implementation Timeline
 
