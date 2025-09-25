@@ -16,13 +16,13 @@ This refined plan focuses on creating a new AWS Dev account to decrease risk for
 
 ### Phase 1: New Dev Account Setup (Weeks 1-2)
 - Create new AWS Dev account
-- Configure IAM roles and policies
+- Configure basic IAM roles and policies (minimal set)
 - Set up Pulumi TypeScript project
-- Configure VPN/Teleport access
+- Configure basic security services
 
 ### Phase 2: Infrastructure Buildout (Weeks 3-4)
 - Create VPC with security best practices
-- Deploy VPN/Teleport infrastructure
+- Deploy VPN/Teleport infrastructure (single deployment)
 - Set up monitoring and logging
 - Configure security controls
 
@@ -33,12 +33,11 @@ This refined plan focuses on creating a new AWS Dev account to decrease risk for
 - Import Route53 records
 - Import Cognito user pools
 
-### Phase 4: Data Migration Planning (Weeks 7-8)
-- Plan RDS data migration
-- Plan ElasticBeanstalk application migration
-- Plan Lambda function migration
-- Plan Route53 DNS migration
-- Plan Cognito user migration
+### Phase 4: IAM Cleanup & Expansion (Weeks 7-8)
+- Clean up existing IAM in current account
+- Expand IAM in Dev account based on learnings
+- Plan data migration for all resources
+- Document IAM best practices
 
 ## 🏗️ Architecture
 
@@ -70,14 +69,14 @@ This refined plan focuses on creating a new AWS Dev account to decrease risk for
 | Week | Task | Description | Deliverable | Hours | Dependencies |
 |------|------|-------------|-------------|-------|--------------|
 | 1 | 1.1 | Create new AWS Dev account | New AWS Dev account | 2 | None |
-| 1 | 1.2 | Configure IAM roles and policies | IAM roles and policies | 4 | New account |
+| 1 | 1.2 | Configure basic IAM roles and policies | Basic IAM roles and policies | 3 | New account |
 | 1 | 1.3 | Set up billing and cost management | Billing configuration | 1 | New account |
-| 1 | 1.4 | Configure CloudTrail and security services | Security services enabled | 2 | IAM setup |
+| 1 | 1.4 | Configure CloudTrail and basic security services | Basic security services enabled | 2 | Basic IAM |
 | 2 | 1.5 | Initialize Pulumi TypeScript project | Pulumi project structure | 3 | Security services |
 | 2 | 1.6 | Configure Pulumi backend (S3 + DynamoDB) | Pulumi backend configured | 2 | Pulumi project |
-| 2 | 1.7 | Set up VPN Gateway | VPN Gateway deployed | 3 | Pulumi backend |
-| 2 | 1.8 | Configure Teleport (alternative) | Teleport configured | 4 | VPN Gateway |
-| 2 | 1.9 | Test access to new Dev account | Access validation | 2 | All setup |
+| 2 | 1.7 | Audit existing IAM in current account | IAM audit report | 4 | Pulumi backend |
+| 2 | 1.8 | Document IAM cleanup opportunities | IAM cleanup plan | 3 | IAM audit |
+| 2 | 1.9 | Test basic access to new Dev account | Basic access validation | 2 | All setup |
 | 2 | 1.10 | Document Dev account procedures | Dev account runbooks | 2 | Access validation |
 
 ### Phase 2: Infrastructure Buildout (Weeks 3-4)
@@ -89,9 +88,9 @@ This refined plan focuses on creating a new AWS Dev account to decrease risk for
 | 3 | 2.3 | Configure NAT Gateways | NAT Gateways | 2 | Subnets created |
 | 3 | 2.4 | Set up security groups | Security groups | 3 | NAT Gateways |
 | 3 | 2.5 | Configure Network ACLs | NACLs configured | 2 | Security groups |
-| 4 | 2.6 | Deploy VPN/Teleport infrastructure | Access infrastructure | 4 | NACLs |
-| 4 | 2.7 | Set up monitoring and logging | Monitoring infrastructure | 3 | Access infrastructure |
-| 4 | 2.8 | Configure backup and disaster recovery | Backup infrastructure | 2 | Monitoring |
+| 4 | 2.6 | Deploy VPN Gateway (single deployment) | VPN infrastructure | 3 | NACLs |
+| 4 | 2.7 | Configure Teleport (alternative to VPN) | Teleport infrastructure | 3 | VPN Gateway |
+| 4 | 2.8 | Set up monitoring and logging | Monitoring infrastructure | 3 | Access infrastructure |
 | 4 | 2.9 | Test infrastructure connectivity | Infrastructure validation | 3 | All infrastructure |
 | 4 | 2.10 | Document infrastructure procedures | Infrastructure runbooks | 2 | Validation complete |
 
@@ -110,20 +109,20 @@ This refined plan focuses on creating a new AWS Dev account to decrease risk for
 | 6 | 3.9 | Document import procedures | Import runbooks | 2 | Configurations updated |
 | 6 | 3.10 | Train team on Pulumi management | Team training | 2 | Documentation complete |
 
-### Phase 4: Data Migration Planning (Weeks 7-8)
+### Phase 4: IAM Cleanup & Expansion (Weeks 7-8)
 
 | Week | Task | Description | Deliverable | Hours | Dependencies |
 |------|------|-------------|-------------|-------|--------------|
-| 7 | 4.1 | Plan RDS data migration | RDS migration plan | 4 | All resources imported |
-| 7 | 4.2 | Plan ElasticBeanstalk application migration | EB migration plan | 4 | RDS plan |
-| 7 | 4.3 | Plan Lambda function migration | Lambda migration plan | 3 | EB plan |
-| 7 | 4.4 | Plan Route53 DNS migration | Route53 migration plan | 2 | Lambda plan |
-| 7 | 4.5 | Plan Cognito user migration | Cognito migration plan | 4 | Route53 plan |
-| 8 | 4.6 | Create data migration scripts | Migration scripts | 4 | All plans |
-| 8 | 4.7 | Test migration procedures | Migration testing | 4 | Scripts created |
-| 8 | 4.8 | Document migration procedures | Migration runbooks | 3 | Testing complete |
-| 8 | 4.9 | Create rollback procedures | Rollback procedures | 3 | Documentation |
-| 8 | 4.10 | Final validation and handoff | Project completion | 3 | All procedures |
+| 7 | 4.1 | Clean up unused IAM roles in current account | Unused roles removed | 4 | All resources imported |
+| 7 | 4.2 | Clean up unused IAM policies in current account | Unused policies removed | 3 | Unused roles removed |
+| 7 | 4.3 | Clean up unused IAM users in current account | Unused users removed | 2 | Unused policies removed |
+| 7 | 4.4 | Expand IAM in Dev account based on learnings | Expanded IAM roles | 4 | Current account cleanup |
+| 7 | 4.5 | Create IAM best practices documentation | IAM best practices guide | 3 | IAM expansion |
+| 8 | 4.6 | Plan RDS data migration | RDS migration plan | 3 | IAM best practices |
+| 8 | 4.7 | Plan ElasticBeanstalk application migration | EB migration plan | 3 | RDS plan |
+| 8 | 4.8 | Plan Lambda function migration | Lambda migration plan | 2 | EB plan |
+| 8 | 4.9 | Plan Route53 DNS migration | Route53 migration plan | 2 | Lambda plan |
+| 8 | 4.10 | Plan Cognito user migration | Cognito migration plan | 3 | Route53 plan |
 
 ## 🛠️ Technology Stack
 
